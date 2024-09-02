@@ -1,2 +1,2 @@
-export {getGeneratedRandomColor} from './colorGenerator';
-export {debounce} from './debounce';
+export { getGeneratedRandomColor } from "./colorGenerator"
+export { debounce } from "./debounce"

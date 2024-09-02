@@ -1,49 +1,64 @@
-import type React from "React"
-import { useEffect } from "React"
+import type React from "react"
+import { useEffect, useState } from "react"
 
-import styles from './ItemsList.module.css'
+import styles from "./ItemsList.module.css"
 import { useAppSelector } from "../../../app/hooks"
 import { selectItems } from "../listSlice"
-import { useState } from "react"
 import { debounce } from "../../../utils"
+import { AnimatePresence, motion } from "framer-motion"
 
 export const ItemsList: React.FC = () => {
-  const items = useAppSelector(selectItems);
+  const items = useAppSelector(selectItems)
 
-  const [itemWidth, setItemWidth] = useState(window.innerWidth / 4);
+  const [itemWidth, setItemWidth] = useState(window.innerWidth / 4)
+  const [animationPerforming, setAnimationPerforming] = useState(false)
 
   useEffect(() => {
     const onResizeEvent = (event: Event) => {
-      const target = event.target as Window;
-      console.log('perform', target.innerWidth)
+      const target = event.target as Window
 
-      setItemWidth(target.innerWidth / 4);
-    };
+      setItemWidth(target.innerWidth / 4)
+    }
 
+    //Дебаунс ради оптимизации
     const debouncedResizeEvent = debounce(onResizeEvent)
 
-    window.addEventListener('resize', debouncedResizeEvent);
+    window.addEventListener("resize", debouncedResizeEvent)
 
     return () => {
-      window.removeEventListener('resize', debouncedResizeEvent);
+      window.removeEventListener("resize", debouncedResizeEvent)
     }
   }, [])
 
-  return <div className={styles.container}>
-    {items.map((item, idx) => {
-      console.log(itemWidth, idx, itemWidth * idx)
-        return <div
-          key={item.id}
-          className={styles.item}
-          style={{
-            backgroundColor: item.color,
-            width: itemWidth,
-            minWidth: itemWidth,
-          }}
-        >
-          {item.color} - {idx}
-        </div>
-      }
-    )}
-  </div>;
+  return (
+    <div
+      className={styles.container}
+      // Нужно выключать скроллбар во время анимации, потому что во время вылета айтема за экран лагает скроллбар
+      style={{ overflowX: animationPerforming ? "hidden" : "auto" }}
+    >
+      <AnimatePresence initial={false}>
+        {items.map(item => (
+            <motion.div
+              key={item.id}
+              className={styles.item}
+              layout
+              style={{
+                backgroundColor: item.color,
+                width: itemWidth,
+                minWidth: itemWidth,
+              }}
+              onAnimationStart={() => setAnimationPerforming(true)}
+              onAnimationComplete={() => setAnimationPerforming(false)}
+              //Начинаем анимацию из-за экрана на ширину айтема
+              initial={{ x: -itemWidth }}
+              //Анимируем до позиции 0
+              animate={{ x: 0 }}
+              //При анмаунте проставляем позицию "ширина экрана + ширина айтема"
+              exit={{ x: window.innerWidth + itemWidth }}
+              transition={{ ease: "easeIn", duration: 0.3 }}
+            ></motion.div>
+          ))}
+      </AnimatePresence>
+    </div>
+  )
 }

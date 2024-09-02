@@ -1,4 +1,4 @@
 export type ListItem = {
-  id: number;
-  color: string;
-};
+  id: number
+  color: string
+}

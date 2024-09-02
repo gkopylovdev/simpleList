@@ -1,2 +1,2 @@
-export {List} from './List';
-export {listSlice} from './listSlice';
+export { List } from "./List"
+export { listSlice } from "./listSlice"
