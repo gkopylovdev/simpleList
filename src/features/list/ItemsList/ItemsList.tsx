@@ -37,7 +37,7 @@ export const ItemsList: React.FC = () => {
       style={{ overflowX: animationPerforming ? "hidden" : "auto" }}
     >
       <AnimatePresence initial={false}>
-        {items.map(item => (
+        {items.map((item, idx) => (
             <motion.div
               key={item.id}
               className={styles.item}
@@ -51,8 +51,14 @@ export const ItemsList: React.FC = () => {
               onAnimationComplete={() => setAnimationPerforming(false)}
               //Начинаем анимацию из-за экрана на ширину айтема
               initial={{ x: -itemWidth }}
-              //Анимируем до позиции 0
-              animate={{ x: 0 }}
+              //Анимируем до позиции 0 и анимируем радиусы у первого и последнего элементов
+              animate={{
+                x: 0,
+                borderTopLeftRadius: idx === 0 ? 16 : 0,
+                borderBottomLeftRadius: idx === 0 ? 16 : 0,
+                borderTopRightRadius: idx === items.length - 1 ? 16 : 0,
+                borderBottomRightRadius: idx === items.length - 1 ? 16 : 0,
+              }}
               //При анмаунте проставляем позицию "ширина экрана + ширина айтема"
               exit={{ x: window.innerWidth + itemWidth }}
               transition={{ ease: "easeIn", duration: 0.3 }}
