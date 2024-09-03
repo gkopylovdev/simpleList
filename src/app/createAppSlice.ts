@@ -1,4 +1,4 @@
-import { buildCreateSlice } from "@reduxjs/toolkit"
+import {buildCreateSlice} from '@reduxjs/toolkit';
 
 // `buildCreateSlice` allows us to create a slice with async thunks.
-export const createAppSlice = buildCreateSlice()
+export const createAppSlice = buildCreateSlice();

@@ -1,11 +1,11 @@
-import type React from "react"
+import type React from 'react';
 
-import styles from "./Controls.module.css"
-import { addItem, removeItem } from "../listSlice"
-import { useAppDispatch } from "../../../app/hooks"
+import styles from './Controls.module.css';
+import {addItem, removeItem} from '../listSlice';
+import {useAppDispatch} from '../../../app/hooks';
 
 export const Controls: React.FC = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.container}>
@@ -16,5 +16,5 @@ export const Controls: React.FC = () => {
         remove last item
       </button>
     </div>
-  )
-}
+  );
+};

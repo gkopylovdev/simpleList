@@ -4,4 +4,5 @@
 
 .control {
   margin-right: 8px;
+  user-select: none;
 }

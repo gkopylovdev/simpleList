@@ -26,7 +26,10 @@
           }
         ]
       }
-    ]
+    ],
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "semi": [2, "always"],
+    "object-curly-spacing": [ "error" ]
   },
   "overrides": [
     { "files": ["*.{c,m,}{t,j}s", "*.{t,j}sx"] },
